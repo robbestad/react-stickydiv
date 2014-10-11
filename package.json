@@ -1,0 +1,42 @@
+{
+  "name": "react-sticky",
+  "version": "1.0.0",
+  "description": "Sticky divs with react",
+  "main": "index.js",
+  "dependencies": {},
+  "peerDependencies": {
+    "react": ">=0.10.0"
+  },
+  "devDependencies": {
+    "bootstrap": "^3.2.0",
+    "describe": "^1.2.0",
+    "jquery": "^2.1.1",
+    "jsdom": "^1.0.1",
+    "jshint": "~2.4.3",
+    "jsxhint": "^0.4.14",
+    "mocha": "~1.17.1",
+    "react": "^0.11.2",
+    "semver": "~2.2.1",
+    "should": "^4.0.4",
+    "underscore": "^1.7.0",
+    "zombie": "^2.0.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:svenanders/react-sticky.git"
+  },
+  "homepage": "https://github.com/svenanders/react-sticky",
+  "keywords": [
+    "react",
+    "react-component",
+    "sticky",
+    "component"
+  ],
+  "author": {
+    "name": "Sven Anders Robbestad",
+    "email": "anders@robbestad.com",
+    "url": "http://www.robbestad.com"
+  },
+  "scripts": {},
+  "license": "ISC"
+}
