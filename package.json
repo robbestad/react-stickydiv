@@ -1,5 +1,5 @@
 {
-  "name": "react-sticky",
+  "name": "react-stickydiv",
   "version": "1.0.2",
   "description": "Sticky divs with react",
   "main": "index.js",
@@ -23,9 +23,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:svenanders/react-sticky.git"
+    "url": "git@github.com:svenanders/react-stickydiv.git"
   },
-  "homepage": "https://github.com/svenanders/react-sticky",
+  "homepage": "https://github.com/svenanders/react-stickydiv",
   "keywords": [
     "react",
     "react-component",

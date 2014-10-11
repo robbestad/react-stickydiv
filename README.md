@@ -1,4 +1,4 @@
-# react-grid
+# react-stickydiv
 
 Component for [React][1] to keep a div sticky when the it is scrolled beyond a certain toggle point. 
 
@@ -6,11 +6,11 @@ Demo at [Performant Design][2] where you'll see the menu responding to scroll ev
 
 ## Installation
 
-    % npm install react-sticky --save
+    % npm install react-stickydiv --save
 
 ## Usage
 
-    var StickyDiv = require('react-sticky');
+    var StickyDiv = require('react-stickydiv');
 
     MyComponent = React.createClass({
       render: function() {
