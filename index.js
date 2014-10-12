@@ -24,7 +24,6 @@ var StickyDiv = React.createClass({
     },
     componentDidMount: function() {
         this.setInterval(this.tick, 1); // Call a method on the mixin
-        console.table(this.props.children);
     },
     tick: function() {
         var scrollTop = (window.pageYOffset !== undefined) ?
