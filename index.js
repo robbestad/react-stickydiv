@@ -19,35 +19,36 @@ var StickyDiv = React.createClass({
     mixins: [SetIntervalMixin], // Use the mixin
     getInitialState:function(){
         return{
-            scrollTop : '0'
+            scrollTop:0
         }
     },
-    componentDidMount: function() {
-        this.setInterval(this.tick, 1); // Call a method on the mixin
+    componentWillMount: function() {
+        this.setInterval(this.tick, 0); // Call a method on the mixin
     },
     tick: function() {
         var scrollTop = (window.pageYOffset !== undefined) ?
             window.pageYOffset : (document.documentElement ||
             document.body.parentNode || document.body).scrollTop;
-            this.setState({scrollTop: scrollTop});
+        this.setState({scrollTop:scrollTop});
     },
+
     render: function () {
-        var divStyle;
-        if(this.state.scrollTop>=this.props.togglepoint){
+        var divStyle, scrollTop = this.state.scrollTop,
+            width = this.props.width > 0 ? this.props.width+"px" : '100%';
+
+        if(scrollTop>=this.props.togglepoint){
             divStyle= {
                 display: 'block',
                 position: 'fixed',
                 top: this.props.top+'px',
-                height: this.props.height+'px',
-                width: this.props.width+"px"
+                width: width
             }
         }
         else {
             divStyle= {
                 display: 'block',
                 position: 'relative',
-                height: this.props.height+'px',
-                width: this.props.width+"px"
+                width: width
             }
 
         }
