@@ -16,14 +16,14 @@ var SetIntervalMixin = {
 };
 
 var StickyDiv = React.createClass({
-    mixins: [SetIntervalMixin], // Use the mixin
+    mixins: [SetIntervalMixin],  
     getInitialState:function(){
         return{
             scrollTop:0
         }
     },
     componentWillMount: function() {
-        this.setInterval(this.tick, 0); // Call a method on the mixin
+        this.setInterval(this.tick, 0);  
     },
     tick: function() {
         var scrollTop = (window.pageYOffset !== undefined) ?
