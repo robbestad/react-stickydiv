@@ -2,7 +2,7 @@
 
 Component for [React][1] to set a div sticky when it's scrolled beyond a certain toggle point. 
 
-Demo at [Performant Design][2] where you'll see the menu responding to scroll events by moving with the page when you scroll from the top, but getting sticky as soon as it's about to move out of view.
+Demo at [Robbestad.com/stickydiv][2]
 
 There are zero variables to set (courtesy of [z5h][4])
 
