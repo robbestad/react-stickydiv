@@ -7,7 +7,7 @@ test:
 	@$(BIN)/mocha -t 5000 -b -R spec spec.js
 
 lint:
-	@$(BIN)/jsxhint -c .jshintrc ./index.js
+	jsxhint -c .jshintrc ./index.js
 
 release-patch: lint test
 	@$(call release,patch)

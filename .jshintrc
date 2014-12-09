@@ -5,10 +5,13 @@
   "expr": true,
   "globalstrict": true,
   "browser": true,
+  "unused":false,
   "globals": {
     "Buffer": false,
     "strict": true,
+    "self": true,
     "require": false,
+    "React": false,
     "process": false,
     "module": false,
     "exports": false,

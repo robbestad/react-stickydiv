@@ -5,6 +5,7 @@ var util = {
 
   // findPos() by quirksmode.org
   // Finds the absolute position of an element on a page
+  /*jshint -W084 */
   findPos: function (obj) {
     var curleft = 0,
         curtop = 0;
