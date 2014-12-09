@@ -1,10 +1,8 @@
-# react-stickydiv
+# Sticky Div
 
-Component for [React][1] to set a div sticky when it's scrolled beyond a certain toggle point. 
+[React][1] Component that sets a div (or any HTML element) sticky when it's scrolled beyond view.
 
 Demo at [Robbestad.com/stickydiv][2]
-
-There are zero variables to set (courtesy of [z5h][4])
 
 ## Installation
 
@@ -34,8 +32,6 @@ There are zero variables to set (courtesy of [z5h][4])
               return React.createElement(StickyDiv, null, React.createElement("div", null, "I'm Sticky"));
           }
       });
-
-
 
 [1]: https://facebook.github.io/react
 [2]: http://www.robbestad.com/stickydiv
