@@ -37,7 +37,7 @@ There are zero variables to set (courtesy of [z5h][4])
 
 
 
-[1]: https://facebook.github.io/react/
-[2]: http://performantdesign.herokuapp.com/
+[1]: https://facebook.github.io/react
+[2]: http://www.robbestad.com/stickydiv
 [3]: https://github.com/svenanders/react-stickydiv/issues/1
 [4]: https://gist.github.com/z5h/d95304d8d8e1fb6d0619
