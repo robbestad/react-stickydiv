@@ -36,12 +36,12 @@ var util = {
 
   // Finds the position of an element relative to the viewport.
   findPosRelativeToViewport: function (obj) {
-    var objPos = this.findPos(obj)
-    var scroll = this.getPageScroll()
+    var objPos = this.findPos(obj);
+    var scroll = this.getPageScroll();
     return [ objPos[0] - scroll[0], objPos[1] - scroll[1] ]
   }
 
-}
+};
 
 var SimplePageScrollMixin = {
   componentDidMount: function () {
@@ -49,7 +49,7 @@ var SimplePageScrollMixin = {
   },
   componentWillUnmount: function () {
     window.removeEventListener('scroll', this.onScroll, false);
-  },
+  }
 };
 var SimpleResizeMixin = {
   componentDidMount: function() {
@@ -61,7 +61,7 @@ var SimpleResizeMixin = {
   }
 };
 
-var StickyDiv = React.createClass({
+var StickyDiv = React.createClass({displayName: 'StickyDiv',
   mixins: [SimplePageScrollMixin, SimpleResizeMixin],
   getInitialState : function(){
     return {fix: false};
@@ -89,26 +89,26 @@ var StickyDiv = React.createClass({
         position: 'fixed',
         width: this.refs.original.getDOMNode().getBoundingClientRect().width + 'px',
         top: 0
-      }
-      return <div style={{'zIndex' : 99999, position:'relative', width:'100%'}}>
-        <div key='duplicate' style={divStyle}>
-            {this.props.children}
-         </div>
-         <div ref='original' key='original' style={{visibility:'hidden'}}>
-            {this.props.children}
-         </div>
-      </div>;
+      };
+      return React.createElement("div", {style: {'zIndex' : 99999, position:'relative', width:'100%'}},
+        React.createElement("div", {key: "duplicate", style: divStyle},
+          this.props.children
+        ),
+        React.createElement("div", {ref: "original", key: "original", style: {visibility:'hidden'}},
+          this.props.children
+        )
+      );
     }
     else {
       divStyle = {
         display: 'block',
         position: 'relative'
-      }
-      return <div style={{'zIndex' : 99999, position:'relative', width:'100%'}}>
-        <div ref='original' key='original' style={divStyle}>
-          {this.props.children}
-        </div>
-      </div>;
+      };
+      return React.createElement("div", {style: {'zIndex' : 99999, position:'relative', width:'100%'}},
+        React.createElement("div", {ref: "original", key: "original", style: divStyle},
+          this.props.children
+        )
+      );
     }
   }
 });
