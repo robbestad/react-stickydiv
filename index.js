@@ -1,11 +1,13 @@
 /** @jsx React.DOM */
 "use strict";
 
+if("undefined" == typeof React)
+  var React = require('react');
+
 var util = {
 
   // findPos() by quirksmode.org
   // Finds the absolute position of an element on a page
-  /*jshint -W084 */
   findPos: function (obj) {
     var curleft = 0,
         curtop = 0;
@@ -37,12 +39,12 @@ var util = {
 
   // Finds the position of an element relative to the viewport.
   findPosRelativeToViewport: function (obj) {
-    var objPos = this.findPos(obj);
-    var scroll = this.getPageScroll();
+    var objPos = this.findPos(obj)
+    var scroll = this.getPageScroll()
     return [ objPos[0] - scroll[0], objPos[1] - scroll[1] ]
   }
 
-};
+}
 
 var SimplePageScrollMixin = {
   componentDidMount: function () {
@@ -62,7 +64,7 @@ var SimpleResizeMixin = {
   }
 };
 
-var StickyDiv = React.createClass({displayName: 'StickyDiv',
+module.exports = React.createClass({displayName: "StickyDiv",
   mixins: [SimplePageScrollMixin, SimpleResizeMixin],
   getInitialState : function(){
     return {fix: false};
@@ -92,12 +94,12 @@ var StickyDiv = React.createClass({displayName: 'StickyDiv',
         top: 0
       };
       return React.createElement("div", {style: {'zIndex' : 99999, position:'relative', width:'100%'}},
-        React.createElement("div", {key: "duplicate", style: divStyle},
-          this.props.children
-        ),
-        React.createElement("div", {ref: "original", key: "original", style: {visibility:'hidden'}},
-          this.props.children
-        )
+          React.createElement("div", {key: "duplicate", style: divStyle},
+              this.props.children
+          ),
+          React.createElement("div", {ref: "original", key: "original", style: {visibility:'hidden'}},
+              this.props.children
+          )
       );
     }
     else {
@@ -106,9 +108,9 @@ var StickyDiv = React.createClass({displayName: 'StickyDiv',
         position: 'relative'
       };
       return React.createElement("div", {style: {'zIndex' : 99999, position:'relative', width:'100%'}},
-        React.createElement("div", {ref: "original", key: "original", style: divStyle},
-          this.props.children
-        )
+          React.createElement("div", {ref: "original", key: "original", style: divStyle},
+              this.props.children
+          )
       );
     }
   }
