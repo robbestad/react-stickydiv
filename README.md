@@ -2,7 +2,7 @@
 
 [React][1] Component that sets a div (or any HTML element) sticky when it's scrolled beyond view.
 
-Demo at [Robbestad.com/stickydiv][2]
+Demo at [https://stickydivdemo.herokuapp.com/#/][2]
 
 ## Installation
 
