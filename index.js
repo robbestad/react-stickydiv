@@ -93,7 +93,7 @@ module.exports = React.createClass({displayName: "StickyDiv",
         width: this.refs.original.getDOMNode().getBoundingClientRect().width + 'px',
         top: 0
       };
-      return React.createElement("div", {style: {'zIndex' : 99999, position:'relative', width:'100%'}},
+      return React.createElement("div", {style: {'zIndex' : 99, position:'relative', width:'100%'}},
           React.createElement("div", {key: "duplicate", style: divStyle},
               this.props.children
           ),
@@ -107,7 +107,7 @@ module.exports = React.createClass({displayName: "StickyDiv",
         display: 'block',
         position: 'relative'
       };
-      return React.createElement("div", {style: {'zIndex' : 99999, position:'relative', width:'100%'}},
+      return React.createElement("div", {style: {'zIndex' : 99, position:'relative', width:'100%'}},
           React.createElement("div", {ref: "original", key: "original", style: divStyle},
               this.props.children
           )
