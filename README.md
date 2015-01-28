@@ -8,6 +8,14 @@ Demo at [https://stickydivdemo.herokuapp.com/#/][2]
 
     % npm install react-stickydiv --save
 
+## A note about index.js
+
+The compiled version of the script is automatically created by running:
+
+    make jsx
+
+There's no need to update this manually.
+
 ## Usage
 
 #### Options 

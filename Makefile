@@ -1,24 +1,34 @@
 BIN = ./node_modules/.bin
+uglify = /usr/local/lib/node_modules/uglify-js/bin/uglifyjs
 
 install link:
 	@npm $@
 
-test:
-	@$(BIN)/mocha -t 5000 -b -R spec spec.js
-
 lint:
 	jsxhint -c .jshintrc ./index.js
 
-release-patch: lint test
+patch: 
+	lint
 	@$(call release,patch)
 
-release-minor: lint test
+minor: 
+	lint 
 	@$(call release,minor)
 
-release-major: lint test
+major: 
+	lint 
 	@$(call release,major)
 
+v: 
+	@(npm view . version)
+
+jsx: 
+	lint
+	gulp	
+
 publish:
+	@$(uglify) index.js > dist/react-stickydiv.min.js
+	git commit -am "`npm view . version`" --allow-empty
 	git push --tags origin HEAD:master
 	npm publish
 
