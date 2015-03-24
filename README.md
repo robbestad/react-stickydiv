@@ -10,7 +10,9 @@ Demo at [https://stickydivdemo.herokuapp.com/#/][2]
 
 ## Usage
 
-
+#### Options 
+ * {int} offsetTop - The offset from the top of the page, optional 
+ 
 #### With JSX
 
     var StickyDiv = require('react-stickydiv');
