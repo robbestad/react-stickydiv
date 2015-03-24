@@ -81,16 +81,18 @@ var StickyDiv = React.createClass({
         }
     },
     render: function () {
-        var divStyle, className;
+        var divStyle, className, offsetTop = 0;
         if("undefined" !== typeof this.props.className)
             className=this.props.className;
+        if("undefined" !== typeof this.props.offsetTop)
+            offsetTop=this.props.offsetTop;
 
         if (this.state.fix) {
             divStyle = {
                 display: 'block',
                 position: 'fixed',
                 width: this.refs.original.getDOMNode().getBoundingClientRect().width + 'px',
-                top: 0
+                top: offsetTop
             }
             return <div style={{'zIndex' : 99999, position:'relative', width:'100%'}}>
                 <div key='duplicate' className={className} style={divStyle}>
