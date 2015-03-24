@@ -52,7 +52,7 @@ var SimplePageScrollMixin = {
   },
   componentWillUnmount: function () {
     window.removeEventListener('scroll', this.onScroll, false);
-  }
+  },
 };
 var SimpleResizeMixin = {
   componentDidMount: function() {
@@ -64,10 +64,17 @@ var SimpleResizeMixin = {
   }
 };
 
-module.exports = React.createClass({displayName: "StickyDiv",
+var StickyDiv = React.createClass({displayName: "StickyDiv",
   mixins: [SimplePageScrollMixin, SimpleResizeMixin],
   getInitialState : function(){
     return {fix: false};
+  },
+  getDefaultProps: function() {
+    return {
+      offsetTop: 0,
+      className: '',
+      zIndex: 9999
+    };
   },
   handleResize : function(){
     this.checkPositions();
@@ -77,7 +84,7 @@ module.exports = React.createClass({displayName: "StickyDiv",
   },
   checkPositions: function(){
     var pos = util.findPosRelativeToViewport(this.getDOMNode());
-    if (pos[1]<0){
+    if (pos[1]<this.props.offsetTop){
       this.setState({fix: true});
     } else {
       this.setState({fix: false});
@@ -85,22 +92,16 @@ module.exports = React.createClass({displayName: "StickyDiv",
   },
   render: function () {
     var divStyle;
-    var className;
-    var offsetTop = 0;
-    if("undefined" !== typeof this.props.className)
-      className=this.props.className;
-    if("undefined" !== typeof this.props.offsetTop)
-      offsetTop=this.props.offsetTop;
 
     if (this.state.fix) {
       divStyle = {
         display: 'block',
         position: 'fixed',
         width: this.refs.original.getDOMNode().getBoundingClientRect().width + 'px',
-        top: offsetTop
-      }
-      return React.createElement("div", {style: {'zIndex' : 99, position:'relative', width:'100%'}},
-          React.createElement("div", {key: "duplicate", className: className, style: divStyle},
+        top: this.props.offsetTop
+      };
+      return React.createElement("div", {style: {'zIndex' : this.props.zIndex, position:'relative', width:'100%'}},
+          React.createElement("div", {key: "duplicate", className: this.props.className, style: divStyle},
               this.props.children
           ),
           React.createElement("div", {ref: "original", key: "original", style: {visibility:'hidden'}},
@@ -113,7 +114,7 @@ module.exports = React.createClass({displayName: "StickyDiv",
         display: 'block',
         position: 'relative'
       };
-      return React.createElement("div", {style: {'zIndex' : 99, position:'relative', width:'100%'}},
+      return React.createElement("div", {style: {'zIndex' : this.props.zIndex, position:'relative', width:'100%'}},
           React.createElement("div", {ref: "original", key: "original", style: divStyle},
               this.props.children
           )
@@ -121,3 +122,5 @@ module.exports = React.createClass({displayName: "StickyDiv",
     }
   }
 });
+
+module.exports = StickyDiv;
