@@ -86,16 +86,19 @@ module.exports = React.createClass({displayName: "StickyDiv",
   render: function () {
     var divStyle;
     var className;
+    var offsetTop = 0;
     if("undefined" !== typeof this.props.className)
       className=this.props.className;
+    if("undefined" !== typeof this.props.offsetTop)
+      offsetTop=this.props.offsetTop;
 
     if (this.state.fix) {
       divStyle = {
         display: 'block',
         position: 'fixed',
         width: this.refs.original.getDOMNode().getBoundingClientRect().width + 'px',
-        top: 0
-      };
+        top: offsetTop
+      }
       return React.createElement("div", {style: {'zIndex' : 99, position:'relative', width:'100%'}},
           React.createElement("div", {key: "duplicate", className: className, style: divStyle},
               this.props.children
