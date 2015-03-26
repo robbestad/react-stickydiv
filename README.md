@@ -11,7 +11,8 @@ Demo at [https://stickydivdemo.herokuapp.com/#/][2]
 ## Usage
 
 #### Options 
- * {int} offsetTop - The offset from the top of the page, optional 
+ * {int} offsetTop - The offset from the top of the page, optional; default: 0 
+ * {int} zIndex - The zIndex for the sticky element, optional; default: 999 
  
 #### With JSX
 

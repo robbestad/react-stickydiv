@@ -1,6 +1,9 @@
 /** @jsx React.DOM */
 "use strict";
 
+if("undefined" == typeof React)
+    var React = require('react');
+
 var util = {
 
     // findPos() by quirksmode.org
@@ -66,6 +69,13 @@ var StickyDiv = React.createClass({
     getInitialState : function(){
         return {fix: false};
     },
+    getDefaultProps: function() {
+        return {
+            offsetTop: 0,
+            className: '',
+            zIndex: 9999
+        };
+    },
     handleResize : function(){
         this.checkPositions();
     },
@@ -74,28 +84,24 @@ var StickyDiv = React.createClass({
     },
     checkPositions: function(){
         var pos = util.findPosRelativeToViewport(this.getDOMNode());
-        if (pos[1]<0){
+        if (pos[1]<this.props.offsetTop){
             this.setState({fix: true});
         } else {
             this.setState({fix: false});
         }
     },
     render: function () {
-        var divStyle, className, offsetTop = 0;
-        if("undefined" !== typeof this.props.className)
-            className=this.props.className;
-        if("undefined" !== typeof this.props.offsetTop)
-            offsetTop=this.props.offsetTop;
+        var divStyle;
 
         if (this.state.fix) {
             divStyle = {
                 display: 'block',
                 position: 'fixed',
                 width: this.refs.original.getDOMNode().getBoundingClientRect().width + 'px',
-                top: offsetTop
-            }
-            return <div style={{'zIndex' : 99999, position:'relative', width:'100%'}}>
-                <div key='duplicate' className={className} style={divStyle}>
+                top: this.props.offsetTop
+            };
+            return <div style={{'zIndex' : this.props.zIndex, position:'relative', width:'100%'}}>
+                <div key='duplicate' className={this.props.className} style={divStyle}>
             {this.props.children}
                 </div>
                 <div ref='original' key='original' style={{visibility:'hidden'}}>
@@ -107,8 +113,8 @@ var StickyDiv = React.createClass({
             divStyle = {
                 display: 'block',
                 position: 'relative'
-            }
-            return <div style={{'zIndex' : 99999, position:'relative', width:'100%'}}>
+            };
+            return <div style={{'zIndex' : this.props.zIndex, position:'relative', width:'100%'}}>
                 <div ref='original' key='original' style={divStyle}>
           {this.props.children}
                 </div>
@@ -116,3 +122,5 @@ var StickyDiv = React.createClass({
         }
     }
 });
+
+module.exports = StickyDiv;
