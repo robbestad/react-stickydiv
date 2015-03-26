@@ -1,8 +1,6 @@
-/** @jsx React.DOM */
 "use strict";
 
-if("undefined" == typeof React)
-    var React = require('react');
+var React = require('react');
 
 var util = {
 
@@ -52,7 +50,7 @@ var SimplePageScrollMixin = {
     },
     componentWillUnmount: function () {
         window.removeEventListener('scroll', this.onScroll, false);
-    },
+    }
 };
 var SimpleResizeMixin = {
     componentDidMount: function() {
@@ -66,6 +64,12 @@ var SimpleResizeMixin = {
 
 var StickyDiv = React.createClass({
     mixins: [SimplePageScrollMixin, SimpleResizeMixin],
+    displayName:"StickyDiv",
+    propTypes:{
+        offsetTop: React.PropTypes.number,
+        zIndex: React.PropTypes.number,
+        className: React.PropTypes.string
+    },
     getInitialState : function(){
         return {fix: false};
     },
@@ -100,7 +104,7 @@ var StickyDiv = React.createClass({
                 width: this.refs.original.getDOMNode().getBoundingClientRect().width + 'px',
                 top: this.props.offsetTop
             };
-            return <div style={{'zIndex' : this.props.zIndex, position:'relative', width:'100%'}}>
+            return <div style={{zIndex : this.props.zIndex, position:'relative', width:'100%'}}>
                 <div key='duplicate' className={this.props.className} style={divStyle}>
             {this.props.children}
                 </div>
@@ -114,7 +118,7 @@ var StickyDiv = React.createClass({
                 display: 'block',
                 position: 'relative'
             };
-            return <div style={{'zIndex' : this.props.zIndex, position:'relative', width:'100%'}}>
+            return <div style={{zIndex : this.props.zIndex, position:'relative', width:'100%'}}>
                 <div ref='original' key='original' style={divStyle}>
           {this.props.children}
                 </div>
