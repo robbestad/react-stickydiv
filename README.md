@@ -45,6 +45,6 @@ There's no need to update this manually.
       });
 
 [1]: https://facebook.github.io/react
-[2]: http://www.robbestad.com/stickydiv
+[2]: http://learnreact.robbestad.com/#/stickydiv
 [3]: https://github.com/svenanders/react-stickydiv/issues/1
 [4]: https://gist.github.com/z5h/d95304d8d8e1fb6d0619
