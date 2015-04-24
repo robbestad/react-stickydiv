@@ -110,12 +110,12 @@ var StickyDiv = React.createClass({
                 { style: { zIndex: this.props.zIndex, position: "relative", width: "100%" } },
                 React.createElement(
                     "div",
-                    { key: "duplicate", className: this.props.className, style: divStyle },
+                    { key: "duplicate", style: { visibility: "hidden" } },
                     this.props.children
                 ),
                 React.createElement(
                     "div",
-                    { ref: "original", key: "original", style: { visibility: "hidden" } },
+                    { ref: "original", key: "original", className: this.props.className, style: divStyle },
                     this.props.children
                 )
             );

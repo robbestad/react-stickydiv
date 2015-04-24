@@ -105,12 +105,15 @@ var StickyDiv = React.createClass({
                 top: this.props.offsetTop
             };
             return <div style={{zIndex : this.props.zIndex, position:'relative', width:'100%'}}>
-                <div key='duplicate' className={this.props.className} style={divStyle}>
+
+                <div key='duplicate' style={{visibility:'hidden'}}>
             {this.props.children}
                 </div>
-                <div ref='original' key='original' style={{visibility:'hidden'}}>
+
+                <div ref='original' key='original' className={this.props.className} style={divStyle} >
             {this.props.children}
                 </div>
+
             </div>;
         }
         else {
