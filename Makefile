@@ -12,7 +12,7 @@ patch:
 	@$(call release,patch)
 
 minor: 
-	lint 
+	@$(call lint) 
 	@$(call release,minor)
 
 major: 
