@@ -72,7 +72,10 @@ var StickyDiv = React.createClass({
         className: React.PropTypes.string
     },
     getInitialState: function getInitialState() {
-        return { fix: false };
+        return {
+            fix: false,
+            width: null
+        };
     },
     getDefaultProps: function getDefaultProps() {
         return {
@@ -82,18 +85,36 @@ var StickyDiv = React.createClass({
         };
     },
     handleResize: function handleResize() {
+        this.checkWidth();
         this.checkPositions();
     },
     onScroll: function onScroll() {
+        this.checkWidth();
         this.checkPositions();
     },
     checkPositions: function checkPositions() {
         var pos = util.findPosRelativeToViewport(this.getDOMNode());
-        if (pos[1] < this.props.offsetTop) {
+        if (pos[1] <= this.props.offsetTop) {
             this.setState({ fix: true });
         } else {
             this.setState({ fix: false });
         }
+    },
+    checkWidth: function checkWidth() {
+        var width = null;
+        if (this.refs.duplicate) {
+            width = this.refs.duplicate.getDOMNode().getBoundingClientRect().width;
+        } else {
+            width = this.refs.original.getDOMNode().getBoundingClientRect().width;
+        }
+        if (this.state.width !== width) {
+            this.setState({
+                width: width
+            });
+        }
+    },
+    componentDidMount: function componentDidMount() {
+        this.checkWidth();
     },
     render: function render() {
         var divStyle;
@@ -102,7 +123,7 @@ var StickyDiv = React.createClass({
             divStyle = {
                 display: "block",
                 position: "fixed",
-                width: this.refs.original.getDOMNode().getBoundingClientRect().width + "px",
+                width: this.state.width ? this.state.width + "px" : null,
                 top: this.props.offsetTop
             };
             return React.createElement(
@@ -110,7 +131,7 @@ var StickyDiv = React.createClass({
                 { style: { zIndex: this.props.zIndex, position: "relative", width: "100%" } },
                 React.createElement(
                     "div",
-                    { key: "duplicate", style: { visibility: "hidden" } },
+                    { ref: "duplicate", key: "duplicate", style: { visibility: "hidden" } },
                     this.props.children
                 ),
                 React.createElement(

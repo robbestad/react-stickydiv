@@ -71,7 +71,10 @@ var StickyDiv = React.createClass({
         className: React.PropTypes.string
     },
     getInitialState : function(){
-        return {fix: false};
+        return {
+            fix: false,
+            width: null
+        };
     },
     getDefaultProps: function() {
         return {
@@ -81,18 +84,36 @@ var StickyDiv = React.createClass({
         };
     },
     handleResize : function(){
+        this.checkWidth();
         this.checkPositions();
     },
     onScroll: function () {
+        this.checkWidth();
         this.checkPositions();
     },
     checkPositions: function(){
         var pos = util.findPosRelativeToViewport(this.getDOMNode());
-        if (pos[1]<this.props.offsetTop){
+        if (pos[1]<=this.props.offsetTop){
             this.setState({fix: true});
         } else {
             this.setState({fix: false});
         }
+    },
+    checkWidth: function () {
+        var width = null;
+        if (this.refs.duplicate) {
+            width = this.refs.duplicate.getDOMNode().getBoundingClientRect().width;
+        } else {
+            width = this.refs.original.getDOMNode().getBoundingClientRect().width;
+        }
+        if (this.state.width !== width) {
+            this.setState({
+                width: width
+            });
+        }
+    },
+    componentDidMount: function () {
+        this.checkWidth();
     },
     render: function () {
         var divStyle;
@@ -101,11 +122,11 @@ var StickyDiv = React.createClass({
             divStyle = {
                 display: 'block',
                 position: 'fixed',
-                width: this.refs.original.getDOMNode().getBoundingClientRect().width + 'px',
+                width: this.state.width ? (this.state.width + 'px') : null,
                 top: this.props.offsetTop
             };
             return <div style={{zIndex : this.props.zIndex, position:'relative', width:'100%'}}>
-                <div key='duplicate' style={{visibility:'hidden'}}>
+                <div ref='duplicate' key='duplicate' style={{visibility:'hidden'}}>
             {this.props.children}
                 </div>
                 <div ref='original' key='original' className={this.props.className} style={divStyle} >
