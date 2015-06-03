@@ -3,11 +3,14 @@
   "version": "3.4.4",
   "description": "Sticky divs with react",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "find_dom_utils": "^0.1.2"
+  },
   "peerDependencies": {
     "react": ">=0.12"
   },
   "devDependencies": {
+    "babel": "^5.1.13",
     "babel-eslint": "^2.0.2",
     "eslint": "^0.17.1",
     "eslint-plugin-react": "^1.6.0",
