@@ -2,7 +2,6 @@
 
 var React = require('react');
 var util = require('find_dom_utils');
-var util = require('find_dom_utils');
 var SimplePageScrollMixin = {
     componentDidMount: function () {
         window.addEventListener('scroll', this.onScroll, false);
