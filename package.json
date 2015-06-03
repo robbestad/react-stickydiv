@@ -1,6 +1,6 @@
 {
   "name": "react-stickydiv",
-  "version": "3.4.6",
+  "version": "3.4.7",
   "description": "Sticky divs with react",
   "main": "index.js",
   "dependencies": {
