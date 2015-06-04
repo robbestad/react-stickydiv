@@ -4,7 +4,7 @@
   "description": "Sticky divs with react",
   "main": "index.js",
   "dependencies": {
-    "find_dom_utils": "^0.2.4"
+    "dom-find": "^0.3.1"
   },
   "peerDependencies": {
     "react": ">=0.12"
