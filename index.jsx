@@ -52,7 +52,7 @@ var StickyDiv = React.createClass({
     checkPositions: function(){
         var pos;
         if('findDOMNode' in React){
-            pos = util.findPosRelativeToViewport(React.findDOMNode());
+            pos = util.findPosRelativeToViewport(React.findDOMNode(this));
           } else {
             pos = util.findPosRelativeToViewport(this.getDOMNode());
           }
