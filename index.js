@@ -1,6 +1,7 @@
 "use strict";
 
 var React = require("react");
+var ReactDOM = require("react-dom");
 var util = require("dom-find");
 var SimplePageScrollMixin = {
     componentDidMount: function componentDidMount() {
@@ -50,12 +51,8 @@ var StickyDiv = React.createClass({
         this.checkPositions();
     },
     checkPositions: function checkPositions() {
-        var pos;
-        if ("findDOMNode" in React) {
-            pos = util.findPosRelativeToViewport(React.findDOMNode(this));
-        } else {
-            pos = util.findPosRelativeToViewport(this.getDOMNode());
-        }
+        var pos = util.findPosRelativeToViewport(ReactDOM.findDOMNode(this));
+
         if (pos[1] <= this.props.offsetTop) {
             this.setState({ fix: true });
         } else {
