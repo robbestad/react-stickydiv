@@ -65,18 +65,9 @@ var StickyDiv = React.createClass({
     checkWidth: function () {
         var width = null;
         if (this.refs.duplicate) {
-         if('findDOMNode' in React){
-            width = React.findDOMNode(this.refs.duplicate).getBoundingClientRect().width;
-          } else {
-            width = this.refs.duplicate.getDOMNode().getBoundingClientRect().width;
-          }
+            width = this.refs.duplicate.getBoundingClientRect().width;
         } else {
-         if('findDOMNode' in React){
-            width = React.findDOMNode(this.refs.original).getBoundingClientRect().width;
-          } else {
-            width = this.refs.original.getDOMNode().getBoundingClientRect().width;
-          }
-
+            width = this.refs.original.getBoundingClientRect().width;
         }
         if (this.state.width !== width) {
             this.setState({
