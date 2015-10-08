@@ -1,6 +1,7 @@
 "use strict";
 
 var React = require("react");
+var ReactDOM = require("react-dom");
 var util = require("dom-find");
 var SimplePageScrollMixin = {
     componentDidMount: function componentDidMount() {
@@ -50,12 +51,8 @@ var StickyDiv = React.createClass({
         this.checkPositions();
     },
     checkPositions: function checkPositions() {
-        var pos;
-        if ("findDOMNode" in React) {
-            pos = util.findPosRelativeToViewport(React.findDOMNode(this));
-        } else {
-            pos = util.findPosRelativeToViewport(this.getDOMNode());
-        }
+        var pos = util.findPosRelativeToViewport(ReactDOM.findDOMNode(this));
+
         if (pos[1] <= this.props.offsetTop) {
             this.setState({ fix: true });
         } else {
@@ -65,17 +62,9 @@ var StickyDiv = React.createClass({
     checkWidth: function checkWidth() {
         var width = null;
         if (this.refs.duplicate) {
-            if ("findDOMNode" in React) {
-                width = React.findDOMNode(this.refs.duplicate).getBoundingClientRect().width;
-            } else {
-                width = this.refs.duplicate.getDOMNode().getBoundingClientRect().width;
-            }
+            width = this.refs.duplicate.getBoundingClientRect().width;
         } else {
-            if ("findDOMNode" in React) {
-                width = React.findDOMNode(this.refs.original).getBoundingClientRect().width;
-            } else {
-                width = this.refs.original.getDOMNode().getBoundingClientRect().width;
-            }
+            width = this.refs.original.getBoundingClientRect().width;
         }
         if (this.state.width !== width) {
             this.setState({
