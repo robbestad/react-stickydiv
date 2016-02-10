@@ -1,36 +1,37 @@
 BIN = ./node_modules/.bin
 uglify = ./node_modules/.bin/uglifyjs
-babel = ./node_modules/.bin/babel
 
 install link:
 	@npm $@
 
 lint:
-	./node_modules/.bin/eslint index.jsx
+	#eslint ./index.jsx
 
-patch: 
-	@$(call lint)
+patch:  lint
+	make prepublish
 	@$(call release,patch)
 
-minor: 
-	@$(call lint) 
+minor: lint 
+	make prepublish
 	@$(call release,minor)
 
-major: 
-	@$(call lint)
+major: lint 
+	make prepublish
 	@$(call release,major)
 
 jsx: 
 	@$(call lint)
-	gulp	
-	@$(uglify) index.js > dist/react-stickydiv.min.js
+	./node_modules/.bin/babel index.jsx > index.js
+	@$(uglify) index.js -o dist/react-stickydiv.min.js --source-map dist/react-stickydiv.min.js.map -p 5 -c drop_console -m
+	cp dist/react-stickydiv.min.js index.js
+
+prepublish: 
+	make jsx
+	@(sh bin/authors)
+	git commit -am "`npm view . version`" --allow-empty
 
 publish:
-	@$(call jsx)
-	@(sh bin/authors)
-	@$(uglify) index.js > dist/react-stickydiv.min.js
 	git commit -am "`npm view . version`" --allow-empty
-	@$(call release,patch)
 	git push --tags origin HEAD:master
 	npm publish
 
