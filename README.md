@@ -21,6 +21,7 @@ There's no need to update this manually.
 #### Options 
  * {int} offsetTop - The offset from the top of the page, optional; default: 0 
  * {int} zIndex - The zIndex for the sticky element, optional; default: 999 
+ * {function} onFixedChange - Function called on change on sticky state, optional;
  * {string} className - A className (or names) for the sticky element, optional; default: ''
  
 #### With JSX
