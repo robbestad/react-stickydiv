@@ -54,8 +54,14 @@ var StickyDiv = React.createClass({
         var pos = util.findPosRelativeToViewport(ReactDOM.findDOMNode(this));
 
         if (pos[1] <= this.props.offsetTop) {
+            if(!this.state.fix && typeof(this.props.onFixedChange)==='function') {
+                this.props.onFixedChange(true);
+            }
             this.setState({ fix: true });
         } else {
+            if(this.state.fix && typeof(this.props.onFixedChange)==='function') {
+                this.props.onFixedChange(false);
+            }
             this.setState({ fix: false });
         }
     },
