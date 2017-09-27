@@ -1,45 +1,29 @@
 "use strict";
 
 var React = require('react');
+var PropTypes = require('prop-types');
+var createReactClass = require('create-react-class');
 var ReactDOM = require('react-dom');
 var util = require('dom-find');
-var SimplePageScrollMixin = {
-    componentDidMount: function () {
-        window.addEventListener('scroll', this.onScroll, false);
-    },
-    componentWillUnmount: function () {
-        window.removeEventListener('scroll', this.onScroll, false);
-    }
-};
-var SimpleResizeMixin = {
-    componentDidMount: function() {
-        window.addEventListener('resize', this.handleResize);
-    },
 
-    componentWillUnmount: function() {
-        window.removeEventListener('resize', this.handleResize);
-    }
-};
-
-var StickyDiv = React.createClass({
-    mixins: [SimplePageScrollMixin, SimpleResizeMixin],
+var StickyDiv = createReactClass({
     displayName:"StickyDiv",
-    propTypes:{
-        offsetTop: React.PropTypes.number,
-        zIndex: React.PropTypes.number,
-        className: React.PropTypes.string
-    },
-    getInitialState : function(){
-        return {
-            fix: false,
-            width: null
-        };
+    propTypes: {
+        offsetTop: PropTypes.number,
+        zIndex: PropTypes.number,
+        className: PropTypes.string
     },
     getDefaultProps: function() {
         return {
             offsetTop: 0,
             className: '',
             zIndex: 9999
+        };
+    },
+    getInitialState : function(){
+        return {
+            fix: false,
+            width: null
         };
     },
     handleResize : function(){
@@ -73,7 +57,13 @@ var StickyDiv = React.createClass({
         }
     },
     componentDidMount: function () {
+        window.addEventListener('scroll', this.onScroll, false);
+        window.addEventListener('resize', this.handleResize);
         this.checkWidth();
+    },
+    componentWillUnmount: function () {
+      window.removeEventListener('scroll', this.onScroll, false);
+      window.removeEventListener('resize', this.handleResize);
     },
     render: function () {
         var divStyle;
