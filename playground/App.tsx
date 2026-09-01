@@ -6,6 +6,7 @@ const paragraphs = Array.from({ length: 12 }, (_, i) => i)
 export function App() {
   const [pageStuck, setPageStuck] = useState(false)
   const [nestedStuck, setNestedStuck] = useState(false)
+  const [belowFoldStuck, setBelowFoldStuck] = useState(false)
 
   return (
     <div className="page">
@@ -77,6 +78,22 @@ export function App() {
             and unstick the header.
           </p>
         ))}
+
+        <div className="below-fold-spacer" data-testid="below-fold-spacer" />
+
+        <StickyDiv
+          className="below-fold-header"
+          stuckClassName="is-stuck"
+          onFixedChange={setBelowFoldStuck}
+          data-testid="below-fold-sticky"
+        >
+          Below-fold sticky
+          <span data-testid="below-fold-stuck-label" className="status">
+            {belowFoldStuck ? 'stuck' : 'inline'}
+          </span>
+        </StickyDiv>
+
+        <div className="below-fold-tail" data-testid="below-fold-tail" />
       </main>
     </div>
   )

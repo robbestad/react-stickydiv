@@ -39,10 +39,58 @@ function installObserverMock() {
   return Observer
 }
 
-function trigger(isIntersecting: boolean, index = 0) {
+function makeRect(
+  top: number,
+  height: number,
+  left = 0,
+  width = 1,
+): DOMRectReadOnly {
+  const bottom = top + height
+  const right = left + width
+  return {
+    x: left,
+    y: top,
+    top,
+    left,
+    width,
+    height,
+    bottom,
+    right,
+    toJSON() {
+      return { x: left, y: top, top, left, width, height, bottom, right }
+    },
+  }
+}
+
+function trigger(
+  {
+    top,
+    height = 1,
+    rootTop = 0,
+    rootBottom = 800,
+    rootBounds: rootBoundsOverride,
+  }: {
+    top: number
+    height?: number
+    rootTop?: number
+    rootBottom?: number
+    rootBounds?: DOMRectReadOnly | null
+  },
+  index = 0,
+) {
   const instance = observers[index]
   if (!instance) throw new Error('no observer')
   const target = instance.elements[0] ?? document.body
+  const boundingClientRect = makeRect(top, height)
+  const rootBounds =
+    rootBoundsOverride === undefined
+      ? makeRect(rootTop, rootBottom - rootTop)
+      : rootBoundsOverride
+  const isIntersecting =
+    rootBounds != null &&
+    boundingClientRect.bottom > rootBounds.top &&
+    boundingClientRect.top < rootBounds.bottom
+
   act(() => {
     instance.callback(
       [
@@ -50,10 +98,12 @@ function trigger(isIntersecting: boolean, index = 0) {
           isIntersecting,
           target,
           time: 0,
-          boundingClientRect: target.getBoundingClientRect(),
+          boundingClientRect,
           intersectionRatio: isIntersecting ? 1 : 0,
-          intersectionRect: target.getBoundingClientRect(),
-          rootBounds: null,
+          intersectionRect: isIntersecting
+            ? boundingClientRect
+            : makeRect(0, 0),
+          rootBounds,
         } satisfies IntersectionObserverEntry,
       ],
       instance as unknown as IntersectionObserver,
@@ -137,16 +187,60 @@ describe('StickyDiv', () => {
       expect(observers[0]?.options?.root).toBe(scroller)
     })
 
-    it('calls onFixedChange(true) when the sentinel leaves the root', () => {
+    it('insets the observer root by offsetTop', () => {
+      render(
+        <StickyDiv offsetTop={24} onFixedChange={() => undefined}>
+          header
+        </StickyDiv>,
+      )
+      expect(observers[0]?.options?.rootMargin).toBe('-24px 0px 100000% 0px')
+    })
+
+    it('does not emit an invalid rootMargin for a negative offsetTop', () => {
+      render(
+        <StickyDiv offsetTop={-8} onFixedChange={() => undefined}>
+          header
+        </StickyDiv>,
+      )
+      expect(observers[0]?.options?.rootMargin).toBe('8px 0px 100000% 0px')
+    })
+
+    it('does not treat a sentinel still below the root as stuck', () => {
       const onFixedChange = vi.fn()
       render(
         <StickyDiv onFixedChange={onFixedChange} stuckClassName="is-stuck">
           header
         </StickyDiv>,
       )
-      trigger(true)
+      trigger({ top: 2000 })
       expect(onFixedChange).not.toHaveBeenCalled()
-      trigger(false)
+      expect(screen.getByText('header')).not.toHaveClass('is-stuck')
+      expect(screen.getByText('header')).not.toHaveAttribute('data-stuck')
+    })
+
+    it('does not apply stuck styles while the sentinel is inside the root', () => {
+      const onFixedChange = vi.fn()
+      render(
+        <StickyDiv onFixedChange={onFixedChange} stuckClassName="is-stuck">
+          header
+        </StickyDiv>,
+      )
+      trigger({ top: 40 })
+      expect(onFixedChange).not.toHaveBeenCalled()
+      expect(screen.getByText('header')).not.toHaveClass('is-stuck')
+      expect(screen.getByText('header')).not.toHaveAttribute('data-stuck')
+    })
+
+    it('calls onFixedChange(true) when the sentinel crosses the top offset', () => {
+      const onFixedChange = vi.fn()
+      render(
+        <StickyDiv onFixedChange={onFixedChange} stuckClassName="is-stuck">
+          header
+        </StickyDiv>,
+      )
+      trigger({ top: 40 })
+      expect(onFixedChange).not.toHaveBeenCalled()
+      trigger({ top: -10 })
       expect(onFixedChange).toHaveBeenCalledTimes(1)
       expect(onFixedChange).toHaveBeenCalledWith(true)
       expect(screen.getByText('header')).toHaveClass('is-stuck')
@@ -156,8 +250,8 @@ describe('StickyDiv', () => {
     it('does not re-fire onFixedChange for duplicate stuck notifications', () => {
       const onFixedChange = vi.fn()
       render(<StickyDiv onFixedChange={onFixedChange}>header</StickyDiv>)
-      trigger(false)
-      trigger(false)
+      trigger({ top: -10 })
+      trigger({ top: -20 })
       expect(onFixedChange).toHaveBeenCalledTimes(1)
       expect(onFixedChange).toHaveBeenCalledWith(true)
     })
@@ -165,8 +259,8 @@ describe('StickyDiv', () => {
     it('calls onFixedChange(false) when becoming unstuck', () => {
       const onFixedChange = vi.fn()
       render(<StickyDiv onFixedChange={onFixedChange}>header</StickyDiv>)
-      trigger(false)
-      trigger(true)
+      trigger({ top: -10 })
+      trigger({ top: 40 })
       expect(onFixedChange.mock.calls).toEqual([[true], [false]])
       expect(screen.getByText('header')).not.toHaveAttribute('data-stuck')
     })
@@ -174,9 +268,23 @@ describe('StickyDiv', () => {
     it('fires onFixedChange(true) if already stuck on the first callback', () => {
       const onFixedChange = vi.fn()
       render(<StickyDiv onFixedChange={onFixedChange}>header</StickyDiv>)
-      trigger(false)
+      trigger({ top: -10 })
       expect(onFixedChange).toHaveBeenCalledTimes(1)
       expect(onFixedChange).toHaveBeenCalledWith(true)
+    })
+
+    it('treats a missing rootBounds as the viewport origin', () => {
+      const onFixedChange = vi.fn()
+      render(
+        <StickyDiv onFixedChange={onFixedChange} stuckClassName="is-stuck">
+          header
+        </StickyDiv>,
+      )
+      trigger({ top: 2000, rootBounds: null })
+      expect(onFixedChange).not.toHaveBeenCalled()
+      trigger({ top: -10, rootBounds: null })
+      expect(onFixedChange).toHaveBeenCalledWith(true)
+      expect(screen.getByText('header')).toHaveClass('is-stuck')
     })
 
     it('disconnects the observer on unmount', () => {

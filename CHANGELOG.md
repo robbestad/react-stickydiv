@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.0.1
+
+### Fixes
+
+- Stuck detection no longer treats a sentinel that is still below the viewport as stuck. `onFixedChange(true)`, `stuckClassName`, and `data-stuck` only apply once the element has crossed the top offset, including after a jump-scroll from below the fold.
+
 ## 4.0.0
 
 Rewrite for React 18+ and current browsers. This is a **breaking** release.

@@ -15,6 +15,10 @@ import {
 } from 'react'
 
 const DEFAULT_Z_INDEX = 9999
+// Grow the IO root downward so a sentinel still below the viewport is
+// intersecting. A jump-scroll from below the fold to past the top would
+// otherwise stay non-intersecting and never notify.
+const BELOW_FOLD_ROOT_MARGIN = '100000%'
 
 export type StickyDivProps<T extends ElementType = 'div'> = {
   /** Element type to render. Default: `'div'`. */
@@ -51,6 +55,16 @@ function getScrollParent(el: Element): Element | null {
     node = node.parentElement
   }
   return null
+}
+
+/**
+ * Stuck means the sentinel has crossed the sticky top offset.
+ * `!isIntersecting` is not enough: a sentinel still below the root is
+ * also non-intersecting.
+ */
+function isSentinelStuck(entry: IntersectionObserverEntry): boolean {
+  const rootTop = entry.rootBounds?.top ?? 0
+  return entry.boundingClientRect.bottom < rootTop
 }
 
 function StickyDivInner(
@@ -90,7 +104,7 @@ function StickyDivInner(
       (entries) => {
         const entry = entries[0]
         if (!entry) return
-        const next = !entry.isIntersecting
+        const next = isSentinelStuck(entry)
         setStuck(next)
         if (previous === null) {
           previous = next
@@ -105,7 +119,7 @@ function StickyDivInner(
       {
         root: getScrollParent(sentinel),
         threshold: 0,
-        rootMargin: `-${offsetTop}px 0px 0px 0px`,
+        rootMargin: `${-offsetTop}px 0px ${BELOW_FOLD_ROOT_MARGIN} 0px`,
       },
     )
 
@@ -161,7 +175,9 @@ function StickyDivInner(
  *
  * Children render once. Stuck detection (for `onFixedChange`,
  * `stuckClassName`, and `data-stuck`) uses IntersectionObserver
- * and is skipped when none of those props are passed.
+ * on a top sentinel and is skipped when none of those props are
+ * passed. The element is stuck only after that sentinel crosses
+ * the top offset — not while it is still below the scrollport.
  */
 export const StickyDiv = forwardRef(StickyDivInner) as <
   T extends ElementType = 'div',

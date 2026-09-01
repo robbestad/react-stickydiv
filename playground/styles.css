@@ -102,6 +102,30 @@ body {
   color: #ecfdf5;
 }
 
+.below-fold-spacer {
+  min-height: 150vh;
+}
+
+.below-fold-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.8rem;
+  background: var(--card);
+  border-block: 1px solid var(--line);
+  font-weight: 650;
+}
+
+.below-fold-header.is-stuck {
+  background: var(--stuck);
+  color: #ecfdf5;
+}
+
+.below-fold-tail {
+  min-height: 120vh;
+}
+
 .scroller p,
 .main > p {
   color: var(--muted);

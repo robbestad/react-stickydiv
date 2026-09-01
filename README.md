@@ -1,6 +1,6 @@
 # Sticky Div
 
-React component that sticks an element with CSS [`position: sticky`](https://developer.mozilla.org/en-US/docs/Web/CSS/position#sticky).
+Zero-dependency React component that sticks an element with CSS [`position: sticky`](https://developer.mozilla.org/en-US/docs/Web/CSS/position#sticky).
 
 Requires **React 18+** and a current evergreen browser. There is no Internet Explorer support.
 
@@ -47,7 +47,7 @@ While stuck (and only when `onFixedChange` or `stuckClassName` is passed), the e
 }
 ```
 
-Stuck detection uses `IntersectionObserver`. If you pass neither `onFixedChange` nor `stuckClassName`, the component is a sticky element with no observers.
+Stuck detection uses `IntersectionObserver` on a 1px sentinel above the element. The element is stuck only after that sentinel has crossed the sticky `offsetTop` — not while it is still below the scrollport. The observer root is expanded downward so a jump-scroll from below the fold still notifies. If you pass neither `onFixedChange` nor `stuckClassName`, the component is a sticky element with no observers.
 
 ## Scroll containers
 

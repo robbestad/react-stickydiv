@@ -1,6 +1,6 @@
 {
   "name": "react-stickydiv",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Stick any React element with CSS position: sticky",
   "license": "ISC",
   "type": "module",
