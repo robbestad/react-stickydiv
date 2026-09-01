@@ -11,3 +11,4 @@ blob-report/
 .idea/
 .vscode/
 *.tsbuildinfo
+.vercel

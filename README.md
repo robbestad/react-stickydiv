@@ -4,6 +4,8 @@ Zero-dependency React component that sticks an element with CSS [`position: stic
 
 Requires **React 18+** and a current evergreen browser. There is no Internet Explorer support.
 
+[Live demo](https://react-stickydiv.vercel.app)
+
 ## Install
 
 ```bash

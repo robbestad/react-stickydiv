@@ -31,6 +31,7 @@
   },
   "scripts": {
     "build": "tsdown",
+    "build:demo": "vite build --config vite.config.ts",
     "dev": "vite --config vite.config.ts",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",

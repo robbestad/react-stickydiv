@@ -19,6 +19,10 @@ export default defineConfig({
     port: 5173,
     strictPort: true,
   },
+  build: {
+    outDir: 'dist',
+    emptyOutDir: true,
+  },
   // Keep Vite from treating the repo root as a second project root.
   cacheDir: `${root}/node_modules/.vite`,
 })

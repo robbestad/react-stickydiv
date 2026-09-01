@@ -14,6 +14,7 @@ export function App() {
         as="header"
         className="page-header"
         stuckClassName="is-stuck"
+        zIndex={20}
         onFixedChange={setPageStuck}
         data-testid="page-header"
       >
@@ -48,6 +49,7 @@ export function App() {
             <StickyDiv
               className="nested-header"
               stuckClassName="is-stuck"
+              zIndex={1}
               onFixedChange={setNestedStuck}
               data-testid="nested-sticky"
             >

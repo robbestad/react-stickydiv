@@ -108,3 +108,28 @@ test('nested sticky follows the inner scroller', async ({ page }) => {
   })
   await expect(label).toHaveText('inline')
 })
+
+test('nested sticky does not paint over the page header', async ({ page }) => {
+  await page.goto('/')
+  const header = page.getByTestId('page-header')
+  const scroller = page.getByTestId('nested-scroller')
+
+  await scroller.scrollIntoViewIfNeeded()
+  await page.evaluate(() => window.scrollBy(0, 64))
+  await expect(header).toHaveAttribute('data-stuck', '')
+
+  const topTestId = await page.evaluate(() => {
+    const el = document.querySelector('[data-testid="page-header"]')
+    if (!(el instanceof HTMLElement)) return null
+    const r = el.getBoundingClientRect()
+    const hit = document.elementFromPoint(
+      r.left + r.width / 2,
+      r.top + r.height / 2,
+    )
+    return hit instanceof Element
+      ? (hit.closest('[data-testid]')?.getAttribute('data-testid') ?? null)
+      : null
+  })
+
+  expect(topTestId).toBe('page-header')
+})

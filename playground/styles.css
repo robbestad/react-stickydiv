@@ -79,6 +79,9 @@ body {
 }
 
 .scroller {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
   height: 220px;
   overflow: auto;
   border: 1px solid var(--line);
@@ -91,6 +94,7 @@ body {
   justify-content: space-between;
   align-items: center;
   gap: 0.75rem;
+  width: 100%;
   padding: 0.6rem 0.8rem;
   background: var(--card);
   border-bottom: 1px solid var(--line);
@@ -136,6 +140,8 @@ body {
 }
 
 .status {
+  flex-shrink: 0;
+  white-space: nowrap;
   font-size: 0.8rem;
   font-variant: all-small-caps;
   letter-spacing: 0.04em;
