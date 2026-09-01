@@ -1,45 +1,81 @@
 {
   "name": "react-stickydiv",
-  "version": "3.4.20",
-  "description": "Sticky divs with react",
-  "main": "index.js",
-  "dependencies": {
-    "dom-find": "^0.3.1"
+  "version": "4.0.0",
+  "description": "Stick any React element with CSS position: sticky",
+  "license": "ISC",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=20"
   },
   "peerDependencies": {
-    "react": "0.14.x || ^16.0.0",
-    "react-dom": "0.14.x || ^16.0.0",
-    "create-react-class": "^15.6.2",
-    "prop-types": "^15.6.0"
+    "react": ">=18"
   },
-  "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-eslint": "^2.0.2",
-    "babel-plugin-transform-react-jsx": "^6.24.1",
-    "eslint": "^0.17.1",
-    "eslint-plugin-react": "^1.6.1",
-    "gulp": "^3.8.11",
-    "gulp-babel": "^4.0.0",
-    "gulp-jsx": "^0.9.0",
-    "gulp-rename": "^1.2.0",
-    "uglify-js": "^2.4.20"
+  "scripts": {
+    "build": "tsdown",
+    "dev": "vite --config vite.config.ts",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "prepublishOnly": "npm run lint && npm run typecheck && npm test && npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:svenanders/react-stickydiv.git"
+    "url": "git+https://github.com/robbestad/react-stickydiv.git"
   },
-  "homepage": "https://github.com/svenanders/react-stickydiv",
+  "bugs": {
+    "url": "https://github.com/robbestad/react-stickydiv/issues"
+  },
+  "homepage": "https://github.com/robbestad/react-stickydiv#readme",
   "keywords": [
     "react",
     "react-component",
     "sticky",
+    "position-sticky",
     "component"
   ],
   "author": {
     "name": "Sven Anders Robbestad",
     "email": "anders@robbestad.com",
-    "url": "http://www.robbestad.com"
+    "url": "https://www.robbestad.com"
   },
-  "scripts": {},
-  "license": "ISC"
+  "devDependencies": {
+    "@biomejs/biome": "2.5.11",
+    "@playwright/test": "1.62.1",
+    "@testing-library/dom": "10.4.1",
+    "@testing-library/jest-dom": "7.0.1",
+    "@testing-library/react": "16.3.3",
+    "@types/node": "26.4.0",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.5",
+    "@vitejs/plugin-react": "6.1.1",
+    "jsdom": "30.0.1",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "tsdown": "0.22.14",
+    "typescript": "7.0.2",
+    "vite": "8.2.2",
+    "vitest": "4.1.11"
+  }
 }

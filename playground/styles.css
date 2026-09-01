@@ -1,0 +1,131 @@
+:root {
+  color-scheme: light dark;
+  --bg: #f6f4ef;
+  --ink: #1c1917;
+  --muted: #57534e;
+  --card: #fff;
+  --line: #d6d3d1;
+  --accent: #0f766e;
+  --stuck: #134e4a;
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1c1917;
+    --ink: #f5f5f4;
+    --muted: #a8a29e;
+    --card: #292524;
+    --line: #44403c;
+    --accent: #2dd4bf;
+    --stuck: #115e59;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.page-header {
+  z-index: 20;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+}
+
+.page-header.is-stuck {
+  background: var(--stuck);
+  color: #ecfdf5;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 18%);
+}
+
+.page-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1.25rem;
+}
+
+.main {
+  padding: 1.25rem;
+}
+
+.lede {
+  font-size: 1.05rem;
+}
+
+.panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1rem 1.1rem 1.2rem;
+  margin: 1.5rem 0;
+}
+
+.panel.warning {
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
+}
+
+.scroller {
+  height: 220px;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+}
+
+.nested-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.8rem;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+  font-weight: 650;
+}
+
+.nested-header.is-stuck {
+  background: var(--accent);
+  color: #ecfdf5;
+}
+
+.scroller p,
+.main > p {
+  color: var(--muted);
+}
+
+.scroller p {
+  padding: 0 0.8rem;
+}
+
+.status {
+  font-size: 0.8rem;
+  font-variant: all-small-caps;
+  letter-spacing: 0.04em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid currentcolor;
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em;
+}
+
+h2 {
+  margin: 0 0 0.4rem;
+  font-size: 1.05rem;
+}
