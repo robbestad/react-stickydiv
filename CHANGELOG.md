@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.0.2
+
+### Docs
+
+- README leads with the 4.x strengths (native sticky, children once, zero dependencies, accurate stuck state) and includes a copy-paste spec for LLMs and coding agents.
+
 ## 4.0.1
 
 ### Fixes
