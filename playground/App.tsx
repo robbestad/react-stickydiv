@@ -86,6 +86,8 @@ export function App() {
         <StickyDiv
           className="below-fold-header"
           stuckClassName="is-stuck"
+          offsetTop={55}
+          zIndex={1}
           onFixedChange={setBelowFoldStuck}
           data-testid="below-fold-sticky"
         >

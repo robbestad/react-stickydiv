@@ -119,6 +119,7 @@ body {
   background: var(--card);
   border-block: 1px solid var(--line);
   font-weight: 650;
+  z-index: 1;
 }
 
 .below-fold-header.is-stuck {

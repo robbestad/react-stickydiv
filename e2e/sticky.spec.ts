@@ -109,6 +109,55 @@ test('nested sticky follows the inner scroller', async ({ page }) => {
   await expect(label).toHaveText('inline')
 })
 
+test('below-fold sticky does not paint over the page header', async ({
+  page,
+}) => {
+  await page.goto('/')
+  const header = page.getByTestId('page-header')
+
+  await page.evaluate(() => {
+    const el = document.querySelector('[data-testid="below-fold-sticky"]')
+    if (!(el instanceof HTMLElement)) return
+    const top = el.getBoundingClientRect().top + window.scrollY
+    window.scrollTo(0, top + 80)
+  })
+
+  await expect(header).toHaveAttribute('data-stuck', '')
+  await expect(page.getByTestId('below-fold-sticky')).toHaveAttribute(
+    'data-stuck',
+    '',
+  )
+
+  const topTestId = await page.evaluate(() => {
+    const el = document.querySelector('[data-testid="page-header"]')
+    if (!(el instanceof HTMLElement)) return null
+    const r = el.getBoundingClientRect()
+    const hit = document.elementFromPoint(
+      r.left + r.width / 2,
+      r.top + r.height / 2,
+    )
+    return hit instanceof Element
+      ? (hit.closest('[data-testid]')?.getAttribute('data-testid') ?? null)
+      : null
+  })
+
+  expect(topTestId).toBe('page-header')
+
+  const z = await page.evaluate(() => {
+    const headerEl = document.querySelector('[data-testid="page-header"]')
+    const below = document.querySelector('[data-testid="below-fold-sticky"]')
+    if (!(headerEl instanceof HTMLElement) || !(below instanceof HTMLElement)) {
+      return null
+    }
+    return {
+      header: Number(getComputedStyle(headerEl).zIndex),
+      below: Number(getComputedStyle(below).zIndex),
+    }
+  })
+  expect(z).toBeTruthy()
+  if (z) expect(z.below).toBeLessThan(z.header)
+})
+
 test('nested sticky does not paint over the page header', async ({ page }) => {
   await page.goto('/')
   const header = page.getByTestId('page-header')
